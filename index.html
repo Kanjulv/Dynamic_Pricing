@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
+
+    <title>Dynamic</title>
+</head>
+
+<body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <!-- Card for the form -->
+            <div class="card" style="width: 100%;height: 100%;margin-top: 50px;">
+                <div class="card-header" style="text-align: center"></div>
+                <h1>Welcome to Dynamic Price Predictor</h1>
+            </div>
+
+            <!-- Form section -->
+            <div class="car-body">
+                <form method="post" accept-charset="utf-8">
+
+                    <!-- Input fields for parameters 1 to 8 -->
+
+                    <div class="row">
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 1</b></label>
+                            <input type="text" class="form-control" id="bed" name="bed" placeholder="Enter Parameter 1">
+                        </div>
+
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 2 </b></label>
+                            <input type="text" class="form-control" id="bath" name="bath"
+                                placeholder="Enter Parameter 2">
+                        </div>
+
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 3 </b></label>
+                            <input type="text" class="form-control" id="sqftliv" name="sqftliv"
+                                placeholder="Enter Parameter 3">
+                        </div>
+
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 4</b></label>
+                            <input type="text" class="form-control" id="sqftlot" name="sqftlot"
+                                placeholder="Enter Parameter 4">
+                        </div>
+
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 5</b></label>
+                            <input type="text" class="form-control" id="floors" name="floors"
+                                placeholder="Enter Parameter 5">
+                        </div>
+
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 6</b></label>
+                            <input type="text" class="form-control" id="waterfront" name="waterfront"
+                                placeholder="Enter Parameter 6">
+                        </div>
+
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 7</b></label>
+                            <input type="text" class="form-control" id="view" name="view"
+                                placeholder="Enter Parameter 7">
+                        </div>
+
+                        <div class="col-md-6 form-group" style="text-align: center">
+                            <label> <b> Parameter 8</b></label>
+                            <input type="text" class="form-control" id="condition" name="condition"
+                                placeholder="Enter Parameter 8">
+                        </div>
+                        <hr>
+
+
+                        <div class="col-md-12 form-group">
+                            <button type="button" class="btn btn-primary form-control" onclick="send_data()">Predict
+                                Price</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Placeholder for displaying prediction result -->
+                <div class="col-md-12" style="text-align: center">
+                    <h3><span id="prediction"></span></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript section -->
+    <script>
+        // Prevents the form from submitting and redirecting to another link
+        function form_handler(event) {
+            event.preventDefault();
+        }
+
+        // Sends form data to the server for prediction
+        function send_data() {
+            document.querySelector('form').addEventListener("submit", form_handler);
+
+            // Collect form data
+            var fd = new FormData(document.querySelector('form'));
+
+            // Create XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Configure the request (POST method, endpoint: /predict)
+            xhr.open('POST', '/predict', true);
+
+            // Display a waiting message during the prediction process
+            document.getElementById("prediction").innerHTML = "Waiting for prediction";
+
+            // Define the callback for handling the server's response
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    document.getElementById('prediction').innerHTML = "Prediction:" + xhr.responseText;
+                }
+            };
+
+            // Send the form data to the server
+            xhr.send(fd);
+        }
+    </script>
+
+    <!-- Bootstrap and Popper.js scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
